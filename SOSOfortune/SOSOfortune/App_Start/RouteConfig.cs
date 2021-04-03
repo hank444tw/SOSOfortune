@@ -13,11 +13,47 @@ namespace SOSOfortune
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapRoute(
+            //    name: "Default",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            //);
+
+            //首頁
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                name: "Index",
+                url: "",
+                defaults: new { controller = "Home", action = "Index" }
             );
+
+            //會員列表
+            routes.MapRoute(
+                name: "MemberList",
+                url: "MemberList",
+                defaults: new { controller = "Members", action = "List" }
+            );
+
+            //新增會員
+            routes.MapRoute(
+                name: "CreateMember",
+                url: "CreateMember",
+                defaults: new { controller = "Members", action = "Create" }
+            );
+
+            //修改會員
+            routes.MapRoute(
+                name: "EditMember",
+                url: "EditMember/{id}",
+                defaults: new { controller = "Members", action = "Edit" }
+            );
+
+            //刪除會員
+            routes.MapRoute(
+                name: "DeleteMember",
+                url: "EditMember",
+                defaults: new { controller = "Members", action = "Edit" }
+            );
+
         }
     }
 }
