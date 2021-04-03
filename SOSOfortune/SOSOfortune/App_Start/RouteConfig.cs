@@ -50,10 +50,16 @@ namespace SOSOfortune
             //刪除會員
             routes.MapRoute(
                 name: "DeleteMember",
-                url: "EditMember",
-                defaults: new { controller = "Members", action = "Edit" }
+                url: "DeleteMember/{id}",
+                defaults: new { controller = "Members", action = "Delete" }
             );
 
+            //帳號驗證
+            routes.MapRoute(
+                name: "CheckMemId",
+                url: "CheckMemId",
+                defaults: new { controller = "Members", action = "CheckMemId" }
+            );
         }
     }
 }

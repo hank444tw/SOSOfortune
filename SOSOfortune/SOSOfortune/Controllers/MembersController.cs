@@ -45,7 +45,7 @@ namespace SOSOfortune.Controllers
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] //預防跨網站攻擊
         public ActionResult Create([Bind(Include = "Id,Name,Gender,Email,Phone,Mem_id,Mem_password,Mem_guid,Admin")] Member member)
         {
             if (ModelState.IsValid)
@@ -122,6 +122,17 @@ namespace SOSOfortune.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public ActionResult CheckMemId(string Mem_id) //驗證帳號是否重複
+        {
+            var mem_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
+            if (mem_id == null)
+            {
+                return Json(true);
+            }
+            return Json(false);
         }
     }
 }
