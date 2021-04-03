@@ -142,6 +142,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\SOSOfortuneDB.mdf" />
+    <Content Include="App_Data\SOSOfortuneDB_log.ldf">
+      <DependentUpon>SOSOfortuneDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -260,7 +264,6 @@
     <Content Include="Scripts\popper-utils.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
