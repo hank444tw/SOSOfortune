@@ -46,7 +46,7 @@ namespace SOSOfortune.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken] //預防跨網站攻擊
-        public ActionResult Create([Bind(Include = "Id,Name,Gender,Email,Phone,Mem_id,Mem_password,Mem_guid,Admin")] Member member)
+        public ActionResult Create([Bind(Include = "Id,Name,Gender,Birthday,Email,Phone,Mem_id,Mem_password")] Member member)
         {
             if (ModelState.IsValid)
             {

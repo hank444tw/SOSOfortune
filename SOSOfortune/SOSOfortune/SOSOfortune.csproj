@@ -156,6 +156,10 @@
     <Compile Include="Migrations\202104040357177_confrimPassword.Designer.cs">
       <DependentUpon>202104040357177_confrimPassword.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104040441591_addBirthday.cs" />
+    <Compile Include="Migrations\202104040441591_addBirthday.Designer.cs">
+      <DependentUpon>202104040441591_addBirthday.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\SOSOfortuneDataModel.cs" />
@@ -303,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104040357177_confrimPassword.resx">
       <DependentUpon>202104040357177_confrimPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104040441591_addBirthday.resx">
+      <DependentUpon>202104040441591_addBirthday.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
