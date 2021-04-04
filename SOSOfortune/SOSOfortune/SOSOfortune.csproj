@@ -148,6 +148,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104040353505_firstMigration.cs" />
+    <Compile Include="Migrations\202104040353505_firstMigration.Designer.cs">
+      <DependentUpon>202104040353505_firstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104040357177_confrimPassword.cs" />
+    <Compile Include="Migrations\202104040357177_confrimPassword.Designer.cs">
+      <DependentUpon>202104040357177_confrimPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\SOSOfortuneDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,7 +286,6 @@
     <Content Include="Views\Members\Edit.cshtml" />
     <Content Include="Views\Members\List.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
@@ -288,6 +296,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202104040353505_firstMigration.resx">
+      <DependentUpon>202104040353505_firstMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104040357177_confrimPassword.resx">
+      <DependentUpon>202104040357177_confrimPassword.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -41,6 +41,9 @@ namespace SOSOfortune.Models
         public string Mem_password { get; set; }
 
         [Required]
+        public string Mem_confirmPassword { get; set; }
+
+        [Required]
         public string Mem_guid { get; set; }
 
         [Required]
