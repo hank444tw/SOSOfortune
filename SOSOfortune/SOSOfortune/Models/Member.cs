@@ -50,10 +50,8 @@ namespace SOSOfortune.Models
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
 
-        [Required]
         public string Mem_guid { get; set; }
 
-        [Required]
         [StringLength(1)]
         public string Admin { get; set; }
     }

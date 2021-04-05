@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using SOSOfortune.Models;
 
 namespace SOSOfortune.Controllers
@@ -46,16 +47,24 @@ namespace SOSOfortune.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken] //預防跨網站攻擊
-        public ActionResult Create([Bind(Include = "Id,Name,Gender,Birthday,Email,Phone,Mem_id,Mem_password")] Member member)
+        public ActionResult Create([Bind(Include = "Name,Gender,Birthday,Email,Phone,Mem_id,Mem_password,Mem_confirmPassword")] Member member)
         {
-            if (ModelState.IsValid)
+            //Model驗證不通過
+            if (ModelState.IsValid != true)
             {
-                db.Member.Add(member);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(member);
             }
 
-            return View(member);
+            //呼叫GetRandomStringByGuid()產生亂碼
+            member.Mem_guid = GetRandomStringByGuid();
+
+            //以SHA1將密碼加密
+            member.Mem_password = FormsAuthentication.HashPasswordForStoringInConfigFile(member.Mem_password, "SHA1");
+            member.Mem_confirmPassword = member.Mem_password; //因為Model驗證，兩個欄位必須一樣，否則存不進資料庫
+
+            db.Member.Add(member);
+            db.SaveChanges();
+            return RedirectToRoute("MemberList");
         }
 
         // GET: Members/Edit/5
@@ -124,15 +133,23 @@ namespace SOSOfortune.Controllers
             base.Dispose(disposing);
         }
 
+        //驗證帳號是否重複
         [HttpPost]
-        public ActionResult CheckMemId(string Mem_id) //驗證帳號是否重複
+        public ActionResult CheckMemId(string Mem_id)
         {
             var mem_id = db.Member.Where(m => m.Mem_id == Mem_id).FirstOrDefault();
             if (mem_id == null)
             {
-                return Json(true);
+                return Json(true); //沒重複
             }
-            return Json(false);
+            return Json(false); //重複
+        }
+
+        //使用guid產生亂碼
+        public static string GetRandomStringByGuid()
+        {
+            string str = Guid.NewGuid().ToString().Replace("-", ""); //將"-"字號去掉
+            return str;
         }
     }
 }
