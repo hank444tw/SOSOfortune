@@ -4,10 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography; //以SHA2加密需引用此命名空間
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using SOSOfortune.Models;
+using SOSOfortune.Models; //引用Model
 
 namespace SOSOfortune.Controllers
 {
@@ -58,8 +60,8 @@ namespace SOSOfortune.Controllers
             //呼叫GetRandomStringByGuid()產生亂碼
             member.Mem_guid = GetRandomStringByGuid();
 
-            //以SHA1將密碼加密
-            member.Mem_password = FormsAuthentication.HashPasswordForStoringInConfigFile(member.Mem_password, "SHA1");
+            //呼叫GetSHA1Encryption()將密碼加密
+            member.Mem_password = GetSHA1Encryption(member.Mem_password);
             member.Mem_confirmPassword = member.Mem_password; //因為Model驗證，兩個欄位必須一樣，否則存不進資料庫
 
             db.Member.Add(member);
@@ -149,6 +151,16 @@ namespace SOSOfortune.Controllers
         public static string GetRandomStringByGuid()
         {
             string str = Guid.NewGuid().ToString().Replace("-", ""); //將"-"字號去掉
+            return str;
+        }
+
+        //使用SHA256進行加密
+        public static string GetSHA1Encryption(string str)
+        {
+            SHA256 sha256 = new SHA256CryptoServiceProvider();
+            byte[] byteStr = Encoding.Default.GetBytes(str); //將字串轉為byte[]
+            byteStr = sha256.ComputeHash(byteStr); //進行SHA2加密
+            str = Convert.ToBase64String(byteStr); //將byte[]轉為字串
             return str;
         }
     }
