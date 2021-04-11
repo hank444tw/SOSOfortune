@@ -61,7 +61,7 @@ namespace SOSOfortune.Controllers
             member.Mem_guid = GetRandomStringByGuid();
 
             //呼叫GetSHA1Encryption()將密碼加密
-            member.Mem_password = GetSHA1Encryption(member.Mem_password);
+            member.Mem_password = GetSHA2Encryption(member.Mem_password);
             member.Mem_confirmPassword = member.Mem_password; //因為Model驗證，兩個欄位必須一樣，否則存不進資料庫
 
             db.Member.Add(member);
@@ -135,6 +135,43 @@ namespace SOSOfortune.Controllers
             base.Dispose(disposing);
         }
 
+        //登入
+        [ChildActionOnly] //限定此Action只能由子要求存取
+        public ActionResult Signin()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken] //預防跨網站攻擊
+        public ActionResult Signin([Bind(Include = "Mem_id,Mem_password")] Member input)
+        {
+            var member = db.Member.Where(m => m.Mem_id == input.Mem_id).FirstOrDefault();
+
+            //帳號不存在
+            if(member == null)
+            {
+                TempData["checkSignin"] = "帳號不存在";
+                TempData["oldMem_id"] = input.Mem_id;
+                return RedirectToRoute("Index");
+            }
+
+            //將輸入的密碼加密
+            input.Mem_password = GetSHA2Encryption(input.Mem_password);
+
+            //密碼錯誤
+            if(input.Mem_password != member.Mem_password)
+            {
+                TempData["checkSignin"] = "密碼錯誤";
+                TempData["oldMem_id"] = input.Mem_id;
+                return RedirectToRoute("Index");
+            }
+
+            Session["userName"] = member.Name;
+
+            return RedirectToRoute("Index");
+        }
+
         //驗證帳號是否重複
         [HttpPost]
         public ActionResult CheckMemId(string Mem_id)
@@ -155,7 +192,7 @@ namespace SOSOfortune.Controllers
         }
 
         //使用SHA256進行加密
-        public static string GetSHA1Encryption(string str)
+        public static string GetSHA2Encryption(string str)
         {
             SHA256 sha256 = new SHA256CryptoServiceProvider();
             byte[] byteStr = Encoding.Default.GetBytes(str); //將字串轉為byte[]

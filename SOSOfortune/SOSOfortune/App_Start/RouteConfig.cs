@@ -60,6 +60,13 @@ namespace SOSOfortune
                 url: "CheckMemId",
                 defaults: new { controller = "Members", action = "CheckMemId" }
             );
+
+            //登入
+            routes.MapRoute(
+                name: "Signin",
+                url: "Signin",
+                defaults: new { controller = "Members", action = "Signin" }
+            );
         }
     }
 }

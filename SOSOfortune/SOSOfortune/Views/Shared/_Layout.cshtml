@@ -9,6 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-info">
         @Html.RouteLink("SOSO記帳", "Index", null, new { @class = "navbar-brand" })
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,8 +17,8 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
 
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     @Html.RouteLink("首頁", "Index", null, new { @class = "nav-link" })
                 </li>
@@ -31,8 +32,35 @@
                 </li>
 
             </ul>
+
+            
+                @if (Session["userName"] == null)
+                {
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" id="btnSignin" href="javascript:;" data-toggle="modal" data-target="#SigninModal">登入</a>
+                        </li>
+                    </ul>
+
+                    <!--登入Modal-->
+                    Html.RenderAction("Signin", "Members"); //呼叫Signin部分檢視頁面
+                }
+                else
+                {
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:;">你好，@Session["UserName"]</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:;">登出</a>
+                        </li>
+                    </ul>
+                }
+
         </div>
     </nav>
+
 
     <div class="container body-content">
         @RenderBody()
@@ -45,5 +73,14 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    @*登入無此帳號時使用*@
+    @if (TempData["checkSignin"] != null)
+    {
+        <script type="text/javascript">
+            $("#btnSignin").click();
+            $("#Mem_id").attr("value","@TempData["oldMem_id"].ToString()");
+        </script>
+    }
 </body>
 </html>
